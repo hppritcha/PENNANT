@@ -1,4 +1,4 @@
-tstop   1.0
+tstop   0.0002
 meshtype rect
 meshparams 540 540 1.125 1.125
 subregion 0.0 0.025  0.0 0.025
@@ -10,5 +10,5 @@ ssmin   0.1
 q1      0.1
 q2      1.0
 dtinit  2.5e-6
-dtreport 100
+dtreport 10
 chunksize 512

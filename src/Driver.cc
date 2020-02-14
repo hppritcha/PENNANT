@@ -22,6 +22,7 @@
 #ifdef _OPENMP
 #include "omp.h"
 #endif
+#include "armie-utils.h"
 
 #include "Parallel.hh"
 #include "InputFile.hh"
@@ -30,6 +31,8 @@
 
 using namespace std;
 
+#define __START_TRACE() { asm volatile (".inst 0x2520e020"); }
+#define __STOP_TRACE() { asm volatile (".inst 0x2520e040"); }
 
 Driver::Driver(const InputFile* inp, const string& pname)
         : probname(pname) {
@@ -103,6 +106,10 @@ void Driver::run() {
         calcGlobalDt();
 
         // begin hydro cycle
+        if (cycle == 2) {
+            __ROI_MARKER("hydro");
+        }
+
         hydro->doCycle(dt);
 
         time += dt;
@@ -125,6 +132,8 @@ void Driver::run() {
         } // if mype...
 
     } // while cycle...
+
+    __ROI_MARKER("hydro");
 
     if (mype == 0) {
 

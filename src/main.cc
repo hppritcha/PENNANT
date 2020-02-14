@@ -17,12 +17,18 @@
 #include "Parallel.hh"
 #include "InputFile.hh"
 #include "Driver.hh"
+#include "armie-utils.h"
 
 using namespace std;
 
+#if 0
+#define __START_TRACE() { asm volatile (".inst 0x2520e020"); }
+#define __STOP_TRACE() { asm volatile (".inst 0x2520e040"); }
+#endif
 
-int main(const int argc, const char** argv)
+int main(int argc, char** argv)
 {
+    __INIT_ARMIE(argv[0]);
     Parallel::init();
 
     if (argc != 2) {

@@ -13,16 +13,40 @@ BINARY := $(BUILDDIR)/$(PRODUCT)
 # begin compiler-dependent flags
 #
 # gcc flags:
-#CXX := g++
-#CXXFLAGS_DEBUG := -g
-#CXXFLAGS_OPT := -O3
+CXX := g++
+CXXFLAGS_DEBUG := -g
+CXXFLAGS_OPT := -O3 -fopt-info -march=armv8.2-a+sve -I /usr/projects/artab/protected/armie/armie/build/clients/include
 #CXXFLAGS_OPENMP := -fopenmp
+CXXFLAGS_OPENMP := 
 
 # intel flags:
-CXX := icpc
-CXXFLAGS_DEBUG := -g
-CXXFLAGS_OPT := -O3 -fast -fno-alias
-CXXFLAGS_OPENMP := -openmp
+#CXX := icpc
+#CXXFLAGS_DEBUG := -g
+#CXXFLAGS_OPT := -O3 -fast -fno-alias -axCORE-AVX512
+#CXXFLAGS_OPT := -O3 -fast -fno-alias -axCORE-AVX512 -qopt-report -qopt-report-phase=vec -no-ipo
+#CXXFLAGS_OPT := -O3 -fast -fno-alias -axCORE-AVX2 -qopt-report -qopt-report-phase=vec -no-ipo
+#CXXFLAGS_OPT := -O3 -fast -fno-alias -no-vec -no-simd
+#CXXFLAGS_OPENMP := -openmp
+
+# arm flags:
+#CXX := armclang++
+#CXXFLAGS_DEBUG := -g
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing -Rpass-missed=vectorize -march=armv8-a+sve -Rpass=loop-vectorize -Rpass-analysis=loop-vectorize -fsave-optimization-record
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing  -march=armv8-a+sve -Rpass=loop-vectorize -Rpass-analysis=loop-vectorize -fsave-optimization-record
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing
+#CXXFLAGS_OPENMP := -fopenmp
+#CXXFLAGS_OPENMP :=
+
+# arm flags:
+#CXX := CC
+#CXXFLAGS_DEBUG := -g
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing -Rpass-missed=vectorize -march=armv8-a+sve -Rpass=loop-vectorize -Rpass-analysis=loop-vectorize -fsave-optimization-record
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing  -march=armv8-a+sve -Rpass=loop-vectorize -Rpass-analysis=loop-vectorize -fsave-optimization-record
+#CXXFLAGS_OPT := -Ofast -fstrict-aliasing
+#CXXFLAGS_OPENMP := -fopenmp
+#CXXFLAGS_OPENMP :=
 
 # pgi flags:
 #CXX := pgCC
@@ -30,6 +54,12 @@ CXXFLAGS_OPENMP := -openmp
 #CXXFLAGS_OPT := -O3 -fastsse
 #CXXFLAGS_OPENMP := -mp
 
+# CCE flags:
+#CXX := CC
+#CXXFLAGS_DEBUG := -g 
+#CXXFLAGS_OPT := -v -O3 -hlist=a -hreport=v -hfp2 
+#CXXFLAGS_OPT := -O3 -hlist=a -hreport=v -I /usr/projects/artab/protected/armie/armie/build/clients/include
+#CXXFLAGS_OPENMP := -mp
 # end compiler-dependent flags
 
 # select optimized or debug
@@ -39,8 +69,8 @@ CXXFLAGS := $(CXXFLAGS_OPT)
 # add mpi to compile (comment out for serial build)
 # the following assumes the existence of an mpi compiler
 # wrapper called mpicxx
-CXX := mpicxx
-CXXFLAGS += -DUSE_MPI
+#CXX := CC
+#CXXFLAGS += -DUSE_MPI
 
 # add openmp flags (comment out for serial build)
 CXXFLAGS += $(CXXFLAGS_OPENMP)
